@@ -1,7 +1,6 @@
 import re
 
 STATE_NUM = 16
-ROW_NUM = 10000
 LETTER_TYPE = 'letter'
 DIGIT_TYPE = 'digit'
 OTHER_TYPE = 'other'
@@ -15,6 +14,10 @@ WHITE_SPACES = [' ', '\n', '\t', '\r', '\f', '\v']
 VALID_SYMBOLS = NO_OTHER_SYMBOLS.copy() + ['=', '*', '/'] + WHITE_SPACES.copy()
 KEYWORDS = ["if", "else", "void", "int", "repeat", "break", "until", "return"]
 INVALID_INPUT = 'Invalid input'
+END = 'END'
+UNCLOSED_COMMENT = 'Unclosed comment'
+INVALID_NUMBER = "Invalid number"
+UNMATCHED_COMMENT = "Unmatched comment"
 
 
 def get_type(char):
@@ -24,6 +27,10 @@ def get_type(char):
     elif re.match(r'[0-9]', char):
         return DIGIT_TYPE
 
-    elif char in self.valid_symbols:
+    elif char in VALID_SYMBOLS:
         return char
     return ILLEGAL_TYPE
+
+
+def is_in_keyword(string):
+    return string in KEYWORDS

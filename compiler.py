@@ -18,11 +18,11 @@ def create_dfa():
     for ws in WHITE_SPACES:
         dfa.add_transition_to_state(source_id=0, situation=ws, final_id=15)
     dfa.change_state_have_other(0, False)
-    dfa.set_state_error_message(0, "Invalid input")
+    dfa.set_state_error_message(0, INVALID_INPUT)
 
     dfa.add_transition_to_state(source_id=1, situation=LETTER_TYPE, final_id=1)
     dfa.add_transition_to_state(source_id=1, situation=DIGIT_TYPE, final_id=1)
-    dfa.add_transition_to_state(source_id=0, situation=OTHER_TYPE, final_id=2)
+    dfa.add_transition_to_state(source_id=1, situation=OTHER_TYPE, final_id=2)
 
     dfa.make_state_final(2)
     dfa.make_state_have_star(2)
@@ -30,12 +30,12 @@ def create_dfa():
     dfa.add_transition_to_state(source_id=3, situation=DIGIT_TYPE, final_id=3)
     dfa.add_state_no_other_chars(3, [LETTER_TYPE])
     dfa.add_transition_to_state(source_id=3, situation=OTHER_TYPE, final_id=4)
-    dfa.set_state_error_message(3, "Invalid number")
+    dfa.set_state_error_message(3, INVALID_NUMBER)
 
     dfa.make_state_final(4)
     dfa.make_state_have_star(4)
 
-    dfa.make_state_have_star(5)
+    dfa.make_state_final(5)
 
     dfa.add_transition_to_state(source_id=6, situation='=', final_id=7)
     dfa.add_transition_to_state(source_id=6, situation=OTHER_TYPE, final_id=9)
@@ -44,7 +44,7 @@ def create_dfa():
 
     dfa.add_state_no_other_chars(8, ["/"])
     dfa.add_transition_to_state(source_id=8, situation=OTHER_TYPE, final_id=9)
-    dfa.set_state_error_message(8, "Unmatched comment")
+    dfa.set_state_error_message(8, UNMATCHED_COMMENT)
 
     dfa.make_state_final(9)
     dfa.make_state_have_star(9)
@@ -52,7 +52,7 @@ def create_dfa():
     dfa.add_transition_to_state(source_id=10, situation="/", final_id=11)
     dfa.add_transition_to_state(source_id=10, situation="*", final_id=13)
     dfa.change_state_have_other(10, False)
-    dfa.set_state_error_message(10, "Invalid input")
+    dfa.set_state_error_message(10, INVALID_INPUT)
 
     dfa.add_transition_to_state(source_id=11, situation="\n", final_id=12)
     dfa.add_transition_to_state(source_id=11, situation=OTHER_TYPE, final_id=11)
@@ -77,7 +77,10 @@ if __name__ == '__main__':
     scanner = Scanner(input_file, dfa=dfa)
     while True:
         p1, p2 = scanner.get_next_token()
-        if p2 == 'END OF FILE':
+        if p2 == END:
+            print(scanner.tokens)
+            print(scanner.lexical_errors)
+            print(scanner.symbols_arr)
             break
 
     # scanner.write_symbol_table('symbol_table.txt')
