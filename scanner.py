@@ -134,3 +134,29 @@ class Scanner:
                 char = '\n'
             self.process_on_new_char(char)
         return self.found_tokens.pop(0)
+
+    def write_tokens(self, file_name):
+        with open(file_name, 'w') as f:
+            for row in self.tokens.keys():
+                f.write(str(row) + '.\t')
+                f.write(' '.join(f'({token_type}, {string})' for token_type, string in self.tokens[row]))
+                f.write('\n')
+
+    def write_symbol_table(self, file_name):
+        with open(file_name, 'w') as ST:
+            for index, sym in enumerate(self.symbols_arr):
+                ST.write(str(index + 1) + ".\t" + sym + '\n')
+
+    def write_lexical_errors(self, file_name):
+        with open(file_name, 'w') as f:
+            if not self.lexical_errors.keys():
+                f.write("There is no lexical error.")
+            for row in self.lexical_errors.keys():
+                f.write(str(row) + ".\t")
+                f.write(' '.join(s[0: -1] for s in self.lexical_errors[row]))
+                f.write('\n')
+
+    def write_files(self):
+        self.write_symbol_table('symbol_table.txt')
+        self.write_lexical_errors('lexical_errors.txt')
+        self.write_tokens('tokens.txt')

@@ -78,13 +78,8 @@ if __name__ == '__main__':
     while True:
         p1, p2 = scanner.get_next_token()
         if p2 == END:
-            print(scanner.tokens)
-            print(scanner.lexical_errors)
-            print(scanner.symbols_arr)
             break
 
-    # scanner.write_symbol_table('symbol_table.txt')
-    # scanner.write_lexical_errors('lexical_errors.txt')
-    # scanner.write_tokens('tokens.txt')
+    scanner.write_files()
 
     input_file.close()
