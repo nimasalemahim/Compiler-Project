@@ -80,6 +80,9 @@ if __name__ == '__main__':
     scanner = Scanner(input_file, dfa=dfa)
     parser = Parser(scanner)
     parser.start()
+    parser.save_tree('parse_tree.txt')
+    parser.save_errors('syntax_errors.txt')
+
     # while True:
     #     k = scanner.get_next_token()
     #     print(k)
@@ -87,6 +90,6 @@ if __name__ == '__main__':
     #     if p1 == END:
     #         break
 
-    # scanner.write_files()
+    scanner.write_files()
 
     input_file.close()
