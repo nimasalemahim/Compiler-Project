@@ -28,9 +28,15 @@ class Parser:
             nonterminals.append(line)
 
         counter = 0
-        for unter in nonterminals:
-            self.firsts[unter] = firsts[counter]
-            self.follows[unter] = follows[counter]
+        for nonter in nonterminals:
+            if counter == 44:
+                self.firsts[nonter] = firsts[counter][:-1]
+                self.follows[nonter] = follows[counter][:-1]
+            else:
+                self.firsts[nonter[:-1]] = firsts[counter][:-1]
+                self.follows[nonter[:-1]] = follows[counter][:-1]
+            counter+=1
+
 
     def create_diagram(self):
         grammer_file = open('grammer.txt', 'r')
@@ -63,5 +69,6 @@ class Parser:
                     f[space_split[len(space_split) - 1]] = max_len
                     states[counter] = f
             states[0] = zero
-            diagram = Diagram(sl[0], states)
+            name = sl[0][:-1]
+            diagram = Diagram(name, states, max_len, self.follows[name], self.firsts[name])
             Diagram.all.append(diagram)

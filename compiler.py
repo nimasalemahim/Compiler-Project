@@ -1,5 +1,7 @@
 # Nima Salem 			97106002
 # Majid Taherkhani	97106108
+from diagram import Diagram
+from parse import Parser
 
 from scanner import Scanner
 from utils import *
