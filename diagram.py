@@ -1,6 +1,6 @@
 
 class Diagram:
-    all = []
+    all = dict()
     def __init__(self, name, states, final, follow, first):
         self.name = name
         self.states = states

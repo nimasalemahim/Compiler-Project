@@ -2,11 +2,16 @@ from diagram import Diagram
 
 
 class Parser:
+
     def __init__(self):
         self.firsts = dict()
         self.follows = dict()
+        self.nonterminals = []
         self.create_first_follow()
         self.create_diagram()
+        self.start()
+
+
 
     def create_first_follow(self):
         first_file = open('first.txt', 'r')
@@ -23,12 +28,11 @@ class Parser:
 
         nonterminal_file = open('nonterminal.txt', 'r')
         nonterminal_Lines = nonterminal_file.readlines()
-        nonterminals = []
         for line in nonterminal_Lines:
-            nonterminals.append(line)
+            self.nonterminals.append(line)
 
         counter = 0
-        for nonter in nonterminals:
+        for nonter in self.nonterminals:
             if counter == 44:
                 self.firsts[nonter] = firsts[counter][:-1]
                 self.follows[nonter] = follows[counter][:-1]
@@ -71,4 +75,4 @@ class Parser:
             states[0] = zero
             name = sl[0][:-1]
             diagram = Diagram(name, states, max_len, self.follows[name], self.firsts[name])
-            Diagram.all.append(diagram)
+            Diagram.all[name] = diagram
