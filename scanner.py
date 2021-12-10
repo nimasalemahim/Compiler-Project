@@ -124,9 +124,9 @@ class Scanner:
         end_file = False
         while not self.found_tokens:
             if end_file:
-                return '', END
+                return '$', END
             char = self.input_file.read(1)
-            if char == '':
+            if char == '' or char == '$':
                 if self.in_comment:
                     error = f"({self.string[:7]}..., {UNCLOSED_COMMENT}) "
                     self.add_to_lexical_errors(error, self.comment_line)

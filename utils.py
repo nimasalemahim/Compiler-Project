@@ -12,7 +12,7 @@ SYMBOL = "SYMBOL"
 NO_OTHER_SYMBOLS = [';', ':', ',', '[', ']', '(', ')', '{', '}', '+', '-', '<']
 WHITE_SPACES = [' ', '\n', '\t', '\r', '\f', '\v']
 VALID_SYMBOLS = NO_OTHER_SYMBOLS.copy() + ['=', '*', '/'] + WHITE_SPACES.copy()
-KEYWORDS = ["if", "else", "void", "int", "repeat", "break", "until", "return"]
+KEYWORDS = ["if", "else", "void", "int", "repeat", "break", "until", "return", 'endif']
 INVALID_INPUT = 'Invalid input'
 END = 'END'
 UNCLOSED_COMMENT = 'Unclosed comment'
