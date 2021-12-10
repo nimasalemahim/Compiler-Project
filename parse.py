@@ -46,6 +46,11 @@ class Parser:
             self.follows[nonter] = follows[counter]
             counter += 1
 
+    def chekFinal(self, counter, final):
+        if (counter+1)==final:
+            return counter+2
+        return counter+1
+
     def create_diagram(self):
         grammer_file = open('grammer.txt', 'r')
         grammer_lines = grammer_file.readlines()
@@ -53,35 +58,39 @@ class Parser:
             has_epsilon = False
             sl = line.split('->')
             rights = sl[1].split('|')
-            max_len = 0
             for g in rights:
                 if g.replace(' ','').replace('\n', '') == EPSILON:
                     has_epsilon = True
                 l = g.split()
-                if len(l) > max_len:
-                    max_len = len(l)
-            # max_len -=1
             states = dict()
             zero = dict()
             counter = 0
+            flag=0
+            final=0
             for g in rights:
                 space_split = g.split()
+                if flag==0:
+                    final = len(space_split)
+                    flag=1
+
+
                 if len(space_split) == 1:
-                    zero[space_split[0]] = max_len
+                    zero[space_split[0]] = final
                 else:
-                    counter += 1
+                    counter = self.chekFinal(counter,final)
                     zero[space_split[0]] = counter
                     for t in space_split[1:len(space_split) - 1]:
                         h = dict()
                         h[t] = counter + 1
                         states[counter] = h
-                        counter += 1
+                        counter = self.chekFinal(counter,final)
                     f = dict()
-                    f[space_split[len(space_split) - 1]] = max_len
+                    f[space_split[len(space_split) - 1]] = final
                     states[counter] = f
+
             states[0] = zero
             name = sl[0][:-1]
             # print(has_epsilon)
-            diagram = Diagram(name, states, max_len, self.follows[name], self.firsts[name], self, has_epsilon)
+            diagram = Diagram(name, states, final, self.follows[name], self.firsts[name], self, has_epsilon)
             Diagram.all[name] = diagram
             # print()
