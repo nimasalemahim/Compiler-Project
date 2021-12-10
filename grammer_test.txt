@@ -1,0 +1,4 @@
+Program -> A $
+A -> B = C
+B -> ID
+C -> NUM

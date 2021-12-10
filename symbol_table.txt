@@ -6,10 +6,10 @@
 6.	break
 7.	until
 8.	return
-9.	count
-10.	result
-11.	f
+9.	endif
+10.	func
+11.	x
 12.	a
-13.	main
-14.	i
-15.	output
+13.	output
+14.	main
+15.	i

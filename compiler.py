@@ -6,6 +6,7 @@ from parse import Parser
 from scanner import Scanner
 from utils import *
 from DFA import DFA
+from parse import Parser
 
 
 def create_dfa():
@@ -77,11 +78,15 @@ if __name__ == '__main__':
     dfa = create_dfa()
     input_file = open('input.txt', 'r')
     scanner = Scanner(input_file, dfa=dfa)
-    while True:
-        p1, p2 = scanner.get_next_token()
-        if p2 == END:
-            break
+    parser = Parser(scanner)
+    parser.start()
+    # while True:
+    #     k = scanner.get_next_token()
+    #     print(k)
+    #     r, (p1, p2) = k
+    #     if p1 == END:
+    #         break
 
-    scanner.write_files()
+    # scanner.write_files()
 
     input_file.close()

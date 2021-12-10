@@ -1,5 +1,7 @@
 from utils import *
 
+end_file = False
+
 
 class Scanner:
     def __init__(self, input_file, dfa):
@@ -24,7 +26,8 @@ class Scanner:
         return string in self.symbols_arr
 
     def process_on_new_char(self, char):
-        if char == '\n':
+        global end_file
+        if char == '\n' and not end_file:
             self.row_counter += 1
         end = False
         while not end:
@@ -113,18 +116,19 @@ class Scanner:
     def add_to_found_tokens(self, token, row_num=None):
         if not row_num:
             row_num = self.row_counter
-        self.found_tokens.append(token)
+        self.found_tokens.append((row_num, token))
         row = self.tokens.get(row_num, [])
         row.append(token)
         self.tokens[row_num] = row
 
     def get_next_token(self):
+        global end_file
         if self.found_tokens:
             return self.found_tokens.pop(0)
         end_file = False
         while not self.found_tokens:
             if end_file:
-                return '$', END
+                return self.row_counter, (END, '$')
             char = self.input_file.read(1)
             if char == '' or char == '$':
                 if self.in_comment:

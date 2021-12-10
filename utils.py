@@ -18,6 +18,9 @@ END = 'END'
 UNCLOSED_COMMENT = 'Unclosed comment'
 INVALID_NUMBER = "Invalid number"
 UNMATCHED_COMMENT = "Unmatched comment"
+START_STATE = 'Program'
+EPSILON = 'EPSILON'
+EPSILON_tree = 'epsilon'
 
 
 def get_type(char):
