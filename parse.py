@@ -38,13 +38,13 @@ class Parser:
         nonterminal_file = open('nonterminal_test.txt', 'r')
         nonterminal_Lines = nonterminal_file.readlines()
         for line in nonterminal_Lines:
-            self.nonterminals.append(line)
+            self.nonterminals.append(line.replace('\n', ''))
 
         counter = 0
         for nonter in self.nonterminals:
-            if counter == 44:
-                self.firsts[nonter] = firsts[counter][:-1]
-                self.follows[nonter] = follows[counter][:-1]
+            if counter == 3:
+                self.firsts[nonter] = firsts[counter]
+                self.follows[nonter] = follows[counter]
             else:
                 self.firsts[nonter[:-1]] = firsts[counter][:-1]
                 self.follows[nonter[:-1]] = follows[counter][:-1]
