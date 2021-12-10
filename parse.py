@@ -27,27 +27,23 @@ class Parser:
         first_Lines = first_file.readlines()
         firsts = []
         for line in first_Lines:
-            firsts.append(line)
+            firsts.append(line.replace('\n', ''))
 
         follow_file = open('follow_test.txt', 'r')
         follow_Lines = follow_file.readlines()
         follows = []
         for line in follow_Lines:
-            follows.append(line)
+            follows.append(line.replace('\n', ''))
 
         nonterminal_file = open('nonterminal_test.txt', 'r')
         nonterminal_Lines = nonterminal_file.readlines()
         for line in nonterminal_Lines:
-            self.nonterminals.append(line)
+            self.nonterminals.append(line.replace('\n', ''))
 
         counter = 0
         for nonter in self.nonterminals:
-            if counter == 44:
-                self.firsts[nonter] = firsts[counter][:-1]
-                self.follows[nonter] = follows[counter][:-1]
-            else:
-                self.firsts[nonter[:-1]] = firsts[counter][:-1]
-                self.follows[nonter[:-1]] = follows[counter][:-1]
+            self.firsts[nonter] = firsts[counter]
+            self.follows[nonter] = follows[counter]
             counter += 1
 
     def create_diagram(self):
