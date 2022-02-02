@@ -67,9 +67,11 @@ class Parser:
             self.follows[nonter] = follows[counter]
             counter += 1
 
-    def check_actions(self, i, actions):
+    def check_actions(self, i, actions, j):
         if i not in actions.keys():
             actions[i] = dict()
+        if j not in actions[i].keys():
+            actions[i][j] = []
         return actions
 
     def chekFinal(self, counter, final):
@@ -116,11 +118,11 @@ class Parser:
                             zero[t] = final
                         else:
                             if ze == 0:
-                                self.check_actions(0, actions)
-                                actions[0][non_act[0]] = t[1:]
+                                self.check_actions(0, actions, non_act[0])
+                                actions[0][non_act[0]].append(t[1:])
                             else:
-                                self.check_actions(final, actions)
-                                actions[final][non_act[0]] = t[1:]
+                                self.check_actions(final, actions, non_act[0])
+                                actions[final][non_act[0]].append(t[1:])
                 else:
                     fg = 0
                     for t in space_split:
@@ -128,13 +130,13 @@ class Parser:
                             fg += 1
 
                         if fg == 0:
-                            self.check_actions(0, actions)
-                            actions[0][non_act[0]] = t[1:]
+                            self.check_actions(0, actions, non_act[0])
+                            actions[0][non_act[0]].append(t[1:])
 
                         elif fg == 1:
                             if t[0] == '#':
-                                self.check_actions(counter, actions)
-                                actions[counter][non_act[fg]] = t[1:]
+                                self.check_actions(counter, actions, non_act[fg])
+                                actions[counter][non_act[fg]].append(t[1:])
                             else:
 
                                 counter = self.chekFinal(counter, final)
@@ -142,16 +144,16 @@ class Parser:
 
                         elif fg == mai:
                             if t[0] == '#':
-                                self.check_actions(final, actions)
-                                actions[final][non_act[fg - 1]] = t[1:]
+                                self.check_actions(final, actions, non_act[fg - 1])
+                                actions[final][non_act[fg - 1]].append(t[1:])
                             else:
                                 f = dict()
                                 f[t] = final
                                 states[counter] = f
                         else:
                             if t[0] == '#':
-                                self.check_actions(counter, actions)
-                                actions[counter][non_act[fg]] = t[1:]
+                                self.check_actions(counter, actions, non_act[fg-1])
+                                actions[counter][non_act[fg-1]].append(t[1:])
                             else:
                                 h = dict()
                                 h[t] = counter + 1
