@@ -1,0 +1,45 @@
+( ID NUM
+( * + - EPSILON
+( NUM
++ -
+( ID NUM
+, EPSILON
+( ID NUM EPSILON
+( * + - < = == [ EPSILON
+< == EPSILON
+{
++ - EPSILON
+int void
+int void
+int void EPSILON
+( ; [
+else endif
+( ID NUM
+( ; ID NUM break
+( ID NUM
+( EPSILON
+( NUM
+(
+* EPSILON
+* + - < = == EPSILON
+repeat
+int void
+, EPSILON
+[ EPSILON
+int void
+$ int void
+< ==
+return
+( ; ID NUM
+if
+( * + - < == EPSILON
+( NUM
+( ; ID NUM break if repeat return {
+( ; ID NUM break if repeat return { EPSILON
+( ID NUM
+( * EPSILON
+( NUM
+int void
+( [ EPSILON
+; [
+[ EPSILON

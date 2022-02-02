@@ -8,11 +8,6 @@ class Diagram:
     def __init__(self, name, states, final, follow, first, parser, has_epsilon):
         self.name = name
         self.states = states
-        # self.actions = {
-        #     '1': {
-        #         'id': 'action'
-        #     }
-        # }
         self.final = final
         self.first = first
         self.follow = follow
@@ -33,7 +28,6 @@ class Diagram:
                         diagram = self.all.get(tra)
                         if (check_token in diagram.first or (
                                 check_token in diagram.follow and EPSILON in diagram.first)) or state != 0:
-                            # code generate
                             state = transitions.get(tra)
                             diagram.start_process(node)
                             if self.parser.end_file:
@@ -45,7 +39,6 @@ class Diagram:
                         if check_token == tra:
                             string = check_token if check_token == '$' else f'({type}, {token})'
                             anytree.Node(string, node)
-                            # code generate
                             state = transitions.get(tra)
                             self.parser.next_token()
                             row, (type, token) = self.parser.token
@@ -70,11 +63,10 @@ class Diagram:
                                 if tra in self.parser.nonterminals:
                                     diagram = self.all.get(tra)
                                     if EPSILON in diagram.first:
-                                        # code generate
-                                        state = transitions.get(tra)
                                         diagram.start_process(node)
                                         if self.parser.end_file:
                                             return node
+                                        state = transitions.get(tra)
                                         break
 
                 else:

@@ -1,4 +1,7 @@
-Program -> A $
-A -> B = C
-B -> ID
-C -> NUM
+S -> #pid id := E #assign
+E -> T E’
+E’-> EPSILON | + T #add E’
+T -> F T’
+T’-> EPSILON | * F #mult T’
+F -> ( E )
+F -> #pid id
