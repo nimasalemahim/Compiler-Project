@@ -33,6 +33,7 @@ class Parser:
 
     def start(self):
         start_diagram = Diagram.all.get(START_STATE)
+
         self.root_node = start_diagram.start_process()
 
     def create_first_follow(self):
@@ -59,6 +60,10 @@ class Parser:
             self.follows[nonter] = follows[counter]
             counter += 1
 
+    def check_actions(self, i, actions):
+        if i not in actions.keys():
+            actions[i] = dict()
+        return actions
     def chekFinal(self, counter, final):
         if (counter + 1) == final:
             return counter + 2
@@ -77,32 +82,78 @@ class Parser:
                 l = g.split()
             states = dict()
             zero = dict()
+            actions = dict()
             counter = 0
             flag = 0
             final = 0
             for g in rights:
                 space_split = g.split()
+                mai = 0
+
+                non_act = []
+                for i in space_split:
+                    if i[0] != '#':
+                        mai += 1
+                        non_act.append(i)
+
                 if flag == 0:
-                    final = len(space_split)
+                    final = mai
                     flag = 1
 
-                if len(space_split) == 1:
-                    zero[space_split[0]] = final
+                if mai == 1:
+                    ze = 0
+                    for t in space_split:
+                        if t[0] != '#':
+                            ze = 1
+                            zero[t] = final
+                        else:
+                            if ze == 0:
+                                self.check_actions(0, actions)
+                                actions[0][t]=non_act[0]
+                            else:
+                                self.check_actions(1, actions)
+                                actions[1][t]=non_act[0]
                 else:
-                    counter = self.chekFinal(counter, final)
-                    zero[space_split[0]] = counter
-                    for t in space_split[1:len(space_split) - 1]:
-                        h = dict()
-                        h[t] = counter + 1
-                        states[counter] = h
-                        counter = self.chekFinal(counter, final)
-                    f = dict()
-                    f[space_split[len(space_split) - 1]] = final
-                    states[counter] = f
+                    fg = 0
+                    for t in space_split:
+                        if t[0] != '#':
+                            fg += 1
+
+                        if fg == 0:
+                            self.check_actions(0, actions)
+                            actions[0][t] = non_act[0]
+
+                        elif fg == 1:
+                            if t[0] == '#':
+                                self.check_actions(counter, actions)
+                                actions[counter][t] = non_act[fg]
+                            else:
+
+                                counter = self.chekFinal(counter, final)
+                                zero[t] = counter
+
+                        elif fg == mai:
+                            if t[0] == '#':
+                                self.check_actions(final, actions)
+                                actions[final][t] = non_act[fg]
+                            else:
+                                f = dict()
+                                f[t] = final
+                                states[counter] = f
+                        else:
+                            if t[0] == '#':
+                                self.check_actions(counter, actions)
+                                actions[counter][t] = non_act[fg]
+                            else:
+
+                                h = dict()
+                                h[t] = counter + 1
+                                states[counter] = h
+                                counter = self.chekFinal(counter, final)
 
             states[0] = zero
             name = sl[0][:-1]
             # print(has_epsilon)
-            diagram = Diagram(name, states, final, self.follows[name], self.firsts[name], self, has_epsilon)
+            diagram = Diagram(name, states, final, self.follows[name], self.firsts[name], self, has_epsilon, actions)
             Diagram.all[name] = diagram
             # print()

@@ -5,7 +5,7 @@ import anytree
 class Diagram:
     all = dict()
 
-    def __init__(self, name, states, final, follow, first, parser, has_epsilon):
+    def __init__(self, name, states, final, follow, first, parser, has_epsilon, actions):
         self.name = name
         self.states = states
         self.final = final
@@ -13,6 +13,7 @@ class Diagram:
         self.follow = follow
         self.parser = parser
         self.has_epsilon = has_epsilon
+        self.actions = actions
 
     def start_process(self, parent=None):
         state = 0
