@@ -4,6 +4,7 @@ class Rows:
         self.address = address
         self.type_val = type_val
         self.scope = scope
+        self.num_array = 0
 
 
 class SymbolTable:

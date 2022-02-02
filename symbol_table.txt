@@ -8,6 +8,3 @@
 8.	return
 9.	endif
 10.	a
-11.	b
-12.	c
-13.	d

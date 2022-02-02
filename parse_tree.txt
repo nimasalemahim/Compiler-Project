@@ -1,34 +1,10 @@
-K
-├── S
-│   ├── (ID, a)
-│   ├── (SYMBOL, =)
-│   └── E
-│       ├── T
-│       │   ├── F
-│       │   │   ├── (SYMBOL, ()
-│       │   │   ├── E
-│       │   │   │   ├── T
-│       │   │   │   │   ├── F
-│       │   │   │   │   │   └── (ID, b)
-│       │   │   │   │   └── B
-│       │   │   │   │       └── epsilon
-│       │   │   │   └── A
-│       │   │   │       ├── G
-│       │   │   │       │   └── (SYMBOL, -)
-│       │   │   │       ├── T
-│       │   │   │       │   ├── F
-│       │   │   │       │   │   └── (ID, c)
-│       │   │   │       │   └── B
-│       │   │   │       │       └── epsilon
-│       │   │   │       └── A
-│       │   │   │           └── epsilon
-│       │   │   └── (SYMBOL, ))
-│       │   └── B
-│       │       ├── (SYMBOL, *)
-│       │       ├── F
-│       │       │   └── (ID, d)
-│       │       └── B
-│       │           └── epsilon
-│       └── A
-│           └── epsilon
+Program
+├── Declaration-list
+│   ├── Declaration
+│   │   └── Declaration-initial
+│   │       ├── Type-specifier
+│   │       │   └── (KEYWORD, int)
+│   │       └── (ID, a)
+│   └── Declaration-list
+│       └── epsilon
 └── $

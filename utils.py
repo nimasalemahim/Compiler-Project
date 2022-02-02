@@ -1,6 +1,6 @@
 import re
 
-DEBUG = True
+DEBUG = False
 STATE_NUM = 16
 LETTER_TYPE = 'letter'
 DIGIT_TYPE = 'digit'
