@@ -4,6 +4,7 @@ import anytree
 
 class Diagram:
     all = dict()
+    code_generator_class = None
 
     def __init__(self, name, states, final, follow, first, parser, has_epsilon, actions):
         self.name = name
@@ -35,6 +36,8 @@ class Diagram:
                         if (check_token in diagram.first or (
                                 check_token in diagram.follow and EPSILON in diagram.first)) or state != 0:
                             # code generate
+                            action = self.actions[state][check_token]
+                            Diagram.code_generator_class.generate_code(action)
                             state = transitions.get(tra)
                             diagram.start_process(node)
                             if self.parser.end_file:
@@ -47,6 +50,8 @@ class Diagram:
                             string = check_token if check_token == '$' else f'({type}, {token})'
                             anytree.Node(string, node)
                             # code generate
+                            action = self.actions[state][check_token]
+                            Diagram.code_generator_class.generate_code(action)
                             state = transitions.get(tra)
                             self.parser.next_token()
                             row, (type, token) = self.parser.token
@@ -72,6 +77,8 @@ class Diagram:
                                     diagram = self.all.get(tra)
                                     if EPSILON in diagram.first:
                                         # code generate
+                                        action = self.actions[state][check_token]
+                                        Diagram.code_generator_class.generate_code(action)
                                         state = transitions.get(tra)
                                         diagram.start_process(node)
                                         if self.parser.end_file:

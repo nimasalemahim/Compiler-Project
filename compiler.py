@@ -7,7 +7,7 @@ from scanner import Scanner
 from utils import *
 from DFA import DFA
 from parse import Parser
-
+from code_generator import CodeGenerator
 
 def create_dfa():
     dfa = DFA([i for i in range(STATE_NUM)])
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         input_file = open('input.txt', 'r')
 
     scanner = Scanner(input_file, dfa=dfa)
-    parser = Parser(scanner)
+    parser = Parser(scanner, CodeGenerator())
     parser.start()
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')

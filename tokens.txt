@@ -1,1 +1,1 @@
-1.	(ID, a) (SYMBOL, =) (ID, b) (SYMBOL, +) (ID, c)
+1.	(ID, a) (SYMBOL, =) (ID, b) (SYMBOL, -) (ID, c)

@@ -1,7 +1,8 @@
 K -> S $
 S -> #pid ID = E #assign
 E -> T A
-A -> EPSILON | + T #add A
+A -> EPSILON | #ASA G T #opp A
+G -> + | -
 T -> F B
-B -> EPSILON | * F #mult B
+B -> EPSILON | #ASA * F #opp B
 F -> ( E ) | #pid ID

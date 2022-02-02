@@ -1,11 +1,11 @@
 from diagram import Diagram
 from utils import START_STATE, EPSILON, DEBUG
 import anytree
-
+from code_generator import CodeGenerator
 
 class Parser:
 
-    def __init__(self, scanner):
+    def __init__(self, scanner, code_generator):
         self.firsts = dict()
         self.follows = dict()
         self.test_file = ''
@@ -19,6 +19,7 @@ class Parser:
         self.errors = []
         self.root_node = None
         self.end_file = False
+        Diagram.code_generator_class = code_generator
 
     def save_errors(self, file):
         with open(file, 'w') as f:
@@ -36,7 +37,11 @@ class Parser:
 
     def start(self):
         start_diagram = Diagram.all.get(START_STATE)
-        self.root_node = start_diagram.start_process()
+        for i in Diagram.all:
+            print(i)
+            print(Diagram.all[i].states)
+            print(Diagram.all[i].actions)
+        # self.root_node = start_diagram.start_process()
 
     def create_first_follow(self):
         first_file = open(f'first{self.test_file}.txt', 'r')
