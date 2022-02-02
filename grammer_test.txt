@@ -1,7 +1,6 @@
 S -> #pid id := E #assign
-E -> T E’
-E’-> EPSILON | + T #add E’
-T -> F T’
-T’-> EPSILON | * F #mult T’
-F -> ( E )
-F -> #pid id
+E -> T A
+A -> EPSILON | + T #add A
+T -> F B
+B -> EPSILON | * F #mult B
+F -> ( E ) | #pid id

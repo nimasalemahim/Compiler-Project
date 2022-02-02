@@ -37,19 +37,19 @@ class Parser:
         self.root_node = start_diagram.start_process()
 
     def create_first_follow(self):
-        first_file = open('first.txt', 'r')
+        first_file = open('first_test.txt', 'r')
         first_Lines = first_file.readlines()
         firsts = []
         for line in first_Lines:
             firsts.append(line.replace('\n', ''))
 
-        follow_file = open('follow.txt', 'r')
+        follow_file = open('follow_test.txt', 'r')
         follow_Lines = follow_file.readlines()
         follows = []
         for line in follow_Lines:
             follows.append(line.replace('\n', ''))
 
-        nonterminal_file = open('nonterminal.txt', 'r')
+        nonterminal_file = open('nonterminal_test.txt', 'r')
         nonterminal_Lines = nonterminal_file.readlines()
         for line in nonterminal_Lines:
             self.nonterminals.append(line.replace('\n', ''))
@@ -70,7 +70,7 @@ class Parser:
         return counter + 1
 
     def create_diagram(self):
-        grammer_file = open('grammer.txt', 'r')
+        grammer_file = open('grammer_test.txt', 'r')
         grammer_lines = grammer_file.readlines()
         for line in grammer_lines:
             has_epsilon = False
