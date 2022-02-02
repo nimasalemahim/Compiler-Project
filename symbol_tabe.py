@@ -9,12 +9,18 @@ class Rows:
 
 class SymbolTable:
     def __init__(self):
-        self.rows = [Rows('a', 500, 'int', 1)]
-        self.pointer_address = 500
+        self.rows = []
+        self.pointer_address = 496
         self.scope_s = []
 
-    def insert(self, lexeme, type_val, scope):
-        self.rows.append(Rows(lexeme, self.pointer_address, type_val, scope))
+    def insert(self, lexeme, type_val, scope, address):
+        self.rows.append(Rows(lexeme, address, type_val, scope))
+
+    def get_free_address(self):
         self.pointer_address += 4
+        return self.pointer_address
 
-
+    def get_row_by_lexeme(self, lexeme, scope):
+        for row in self.rows:
+            if row.scope == scope and row.lexeme == lexeme:
+                return row

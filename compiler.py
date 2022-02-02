@@ -8,6 +8,7 @@ from utils import *
 from DFA import DFA
 from parse import Parser
 from code_generator import CodeGenerator
+from symbol_tabe import SymbolTable
 
 def create_dfa():
     dfa = DFA([i for i in range(STATE_NUM)])
@@ -82,10 +83,16 @@ if __name__ == '__main__':
         input_file = open('input.txt', 'r')
 
     scanner = Scanner(input_file, dfa=dfa)
-    parser = Parser(scanner, CodeGenerator())
+    sym_table = SymbolTable()
+    code_gen = CodeGenerator(sym_table)
+    parser = Parser(scanner, code_gen)
     parser.start()
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')
+
+    for row in sym_table.rows:
+        print(row.lexeme, row.scope, row.num_array, row.address)
+
 
     # while True:
     #     k = scanner.get_next_token()

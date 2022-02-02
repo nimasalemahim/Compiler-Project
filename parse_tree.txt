@@ -1,10 +1,25 @@
 Program
 ├── Declaration-list
 │   ├── Declaration
-│   │   └── Declaration-initial
-│   │       ├── Type-specifier
-│   │       │   └── (KEYWORD, int)
-│   │       └── (ID, a)
+│   │   ├── Declaration-initial
+│   │   │   ├── Type-specifier
+│   │   │   │   └── (KEYWORD, int)
+│   │   │   └── (ID, a)
+│   │   └── Declaration-prime
+│   │       └── Var-declaration-prime
+│   │           └── (SYMBOL, ;)
 │   └── Declaration-list
-│       └── epsilon
+│       ├── Declaration
+│       │   ├── Declaration-initial
+│       │   │   ├── Type-specifier
+│       │   │   │   └── (KEYWORD, int)
+│       │   │   └── (ID, c)
+│       │   └── Declaration-prime
+│       │       └── Var-declaration-prime
+│       │           ├── (SYMBOL, [)
+│       │           ├── (NUM, 5)
+│       │           ├── (SYMBOL, ])
+│       │           └── (SYMBOL, ;)
+│       └── Declaration-list
+│           └── epsilon
 └── $

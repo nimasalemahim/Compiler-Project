@@ -42,6 +42,7 @@ class Parser:
         #     print(Diagram.all[i].states)
         #     print(Diagram.all[i].actions)
         self.root_node = start_diagram.start_process()
+        print(Diagram.code_generator_class.codes)
 
     def create_first_follow(self):
         first_file = open(f'first{self.test_file}.txt', 'r')

@@ -21,12 +21,12 @@ class Diagram:
         self.has_epsilon = has_epsilon
         self.actions = actions
 
-    def do_actions(self, state, tra):
+    def do_actions(self, state, tra, token):
         action = self.actions.get(state, None)
         if action:
             ac = action.get(tra, None)
             for i in ac:
-                Diagram.code_generator_class.generate_code(i)
+                Diagram.code_generator_class.generate_code(i, token)
 
     def start_process(self, parent=None):
         state = 0
@@ -43,11 +43,11 @@ class Diagram:
                         if (check_token in diagram.first or (
                                 check_token in diagram.follow and EPSILON in diagram.first)) or state != 0:
                             # code generate
-                            self.do_actions(state, tra)
+                            self.do_actions(state, tra, self.parser.token[1][1])
                             state = transitions.get(tra)
                             diagram.start_process(node)
                             if self.final == state:
-                                self.do_actions(state, tra)
+                                self.do_actions(state, tra, self.parser.token[1][1])
                             if self.parser.end_file:
                                 return node
                             row, (type, token) = self.parser.token
@@ -58,10 +58,10 @@ class Diagram:
                             string = check_token if check_token == '$' else f'({type}, {token})'
                             anytree.Node(string, node)
                             # code generate
-                            self.do_actions(state, tra)
+                            self.do_actions(state, tra, self.parser.token[1][1])
                             state = transitions.get(tra)
                             if self.final == state:
-                                self.do_actions(state, tra)
+                                self.do_actions(state, tra, self.parser.token[1][1])
                             self.parser.next_token()
                             row, (type, token) = self.parser.token
                             check_token = type if type in [ID, NUM] else token
@@ -88,11 +88,11 @@ class Diagram:
                                     diagram = self.all.get(tra)
                                     if EPSILON in diagram.first:
                                         # code generate
-                                        self.do_actions(state, tra)
+                                        self.do_actions(state, tra, self.parser.token[1][1])
                                         state = transitions.get(tra)
                                         diagram.start_process(node)
                                         if self.final == state:
-                                            self.do_actions(state, tra)
+                                            self.do_actions(state, tra, self.parser.token[1][1])
                                         if self.parser.end_file:
                                             return node
                                         break
