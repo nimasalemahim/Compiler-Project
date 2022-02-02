@@ -1,4 +1,4 @@
-Program -> A $
+Program -> A $ | R T E
 A -> B = C
 B -> ID
 C -> NUM

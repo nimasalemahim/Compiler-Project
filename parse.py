@@ -33,7 +33,6 @@ class Parser:
 
     def start(self):
         start_diagram = Diagram.all.get(START_STATE)
-
         self.root_node = start_diagram.start_process()
 
     def create_first_follow(self):
@@ -109,10 +108,10 @@ class Parser:
                         else:
                             if ze == 0:
                                 self.check_actions(0, actions)
-                                actions[0][t]=non_act[0]
+                                actions[0][t] = non_act[0]
                             else:
-                                self.check_actions(1, actions)
-                                actions[1][t]=non_act[0]
+                                self.check_actions(final, actions)
+                                actions[final][t] = non_act[0]
                 else:
                     fg = 0
                     for t in space_split:
@@ -135,7 +134,7 @@ class Parser:
                         elif fg == mai:
                             if t[0] == '#':
                                 self.check_actions(final, actions)
-                                actions[final][t] = non_act[fg]
+                                actions[final][t] = non_act[fg-1]
                             else:
                                 f = dict()
                                 f[t] = final
@@ -145,7 +144,6 @@ class Parser:
                                 self.check_actions(counter, actions)
                                 actions[counter][t] = non_act[fg]
                             else:
-
                                 h = dict()
                                 h[t] = counter + 1
                                 states[counter] = h
