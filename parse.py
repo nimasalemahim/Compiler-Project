@@ -117,10 +117,10 @@ class Parser:
                         else:
                             if ze == 0:
                                 self.check_actions(0, actions)
-                                actions[0][t] = non_act[0]
+                                actions[0][non_act[0]] = t[1:]
                             else:
                                 self.check_actions(final, actions)
-                                actions[final][t] = non_act[0]
+                                actions[final][non_act[0]] = t[1:]
                 else:
                     fg = 0
                     for t in space_split:
@@ -129,12 +129,12 @@ class Parser:
 
                         if fg == 0:
                             self.check_actions(0, actions)
-                            actions[0][t] = non_act[0]
+                            actions[0][non_act[0]] = t[1:]
 
                         elif fg == 1:
                             if t[0] == '#':
                                 self.check_actions(counter, actions)
-                                actions[counter][t] = non_act[fg]
+                                actions[counter][non_act[fg]] = t[1:]
                             else:
 
                                 counter = self.chekFinal(counter, final)
@@ -143,7 +143,7 @@ class Parser:
                         elif fg == mai:
                             if t[0] == '#':
                                 self.check_actions(final, actions)
-                                actions[final][t] = non_act[fg - 1]
+                                actions[final][non_act[fg - 1]] = t[1:]
                             else:
                                 f = dict()
                                 f[t] = final
@@ -151,7 +151,7 @@ class Parser:
                         else:
                             if t[0] == '#':
                                 self.check_actions(counter, actions)
-                                actions[counter][t] = non_act[fg]
+                                actions[counter][non_act[fg]] = t[1:]
                             else:
                                 h = dict()
                                 h[t] = counter + 1
