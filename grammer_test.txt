@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-S -> #pid id := E #assign
+K -> S $
+S -> #pid ID = E #assign
 E -> T A
 A -> EPSILON | + T #add A
 T -> F B
 B -> EPSILON | * F #mult B
-F -> ( E ) | #pid id
-=======
-Program -> A $ | R T E
-A -> B = C
-B -> ID
-C -> NUM
->>>>>>> 1a083c3685041a9ada85752e55b0f987d70c07e4
+F -> ( E ) | #pid ID

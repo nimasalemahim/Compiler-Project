@@ -1,5 +1,6 @@
 import re
 
+DEBUG = True
 STATE_NUM = 16
 LETTER_TYPE = 'letter'
 DIGIT_TYPE = 'digit'
@@ -18,7 +19,12 @@ END = 'END'
 UNCLOSED_COMMENT = 'Unclosed comment'
 INVALID_NUMBER = "Invalid number"
 UNMATCHED_COMMENT = "Unmatched comment"
-START_STATE = 'Program'
+
+if DEBUG:
+    START_STATE = 'K'
+else:
+    START_STATE = 'Program'
+
 EPSILON = 'EPSILON'
 EPSILON_tree = 'epsilon'
 

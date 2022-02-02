@@ -76,7 +76,11 @@ def create_dfa():
 
 if __name__ == '__main__':
     dfa = create_dfa()
-    input_file = open('input.txt', 'r')
+    if DEBUG:
+        input_file = open('input_test.txt', 'r')
+    else:
+        input_file = open('input.txt', 'r')
+
     scanner = Scanner(input_file, dfa=dfa)
     parser = Parser(scanner)
     parser.start()

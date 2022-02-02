@@ -1,5 +1,5 @@
 from diagram import Diagram
-from utils import START_STATE, EPSILON
+from utils import START_STATE, EPSILON, DEBUG
 import anytree
 
 
@@ -8,6 +8,9 @@ class Parser:
     def __init__(self, scanner):
         self.firsts = dict()
         self.follows = dict()
+        self.test_file = ''
+        if DEBUG:
+            self.test_file = '_test'
         self.nonterminals = []
         self.create_first_follow()
         self.create_diagram()
@@ -36,19 +39,19 @@ class Parser:
         self.root_node = start_diagram.start_process()
 
     def create_first_follow(self):
-        first_file = open('first_test.txt', 'r')
+        first_file = open(f'first{self.test_file}.txt', 'r')
         first_Lines = first_file.readlines()
         firsts = []
         for line in first_Lines:
             firsts.append(line.replace('\n', ''))
 
-        follow_file = open('follow_test.txt', 'r')
+        follow_file = open(f'follow{self.test_file}.txt', 'r')
         follow_Lines = follow_file.readlines()
         follows = []
         for line in follow_Lines:
             follows.append(line.replace('\n', ''))
 
-        nonterminal_file = open('nonterminal_test.txt', 'r')
+        nonterminal_file = open(f'nonterminal{self.test_file}.txt', 'r')
         nonterminal_Lines = nonterminal_file.readlines()
         for line in nonterminal_Lines:
             self.nonterminals.append(line.replace('\n', ''))
@@ -63,13 +66,14 @@ class Parser:
         if i not in actions.keys():
             actions[i] = dict()
         return actions
+
     def chekFinal(self, counter, final):
         if (counter + 1) == final:
             return counter + 2
         return counter + 1
 
     def create_diagram(self):
-        grammer_file = open('grammer_test.txt', 'r')
+        grammer_file = open(f'grammer{self.test_file}.txt', 'r')
         grammer_lines = grammer_file.readlines()
         for line in grammer_lines:
             has_epsilon = False
@@ -134,7 +138,7 @@ class Parser:
                         elif fg == mai:
                             if t[0] == '#':
                                 self.check_actions(final, actions)
-                                actions[final][t] = non_act[fg-1]
+                                actions[final][t] = non_act[fg - 1]
                             else:
                                 f = dict()
                                 f[t] = final
