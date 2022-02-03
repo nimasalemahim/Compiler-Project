@@ -87,7 +87,7 @@ if __name__ == '__main__':
     code_gen = CodeGenerator(sym_table)
     parser = Parser(scanner, code_gen)
     parser.start()
-    print(sym_table)
+    # print(sym_table)
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')
 

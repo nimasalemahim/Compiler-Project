@@ -4,17 +4,18 @@ from symbol_tabe import SymbolTable
 class CodeGenerator:
     def __init__(self, symbol_table):
         self.semantic_stack = []
-        self.operand = None
         self.scope = 0
         self.declaration_type = None
         self.latest_lexeme = None
-        self.code_line = 0
+        self.code_line = 1
         self.codes = {}
         self.symbol_table: SymbolTable = symbol_table
-        # self.latest_op = []
+        self.operands = []
+        self.declaration_id = False
+        self.repeat_stack = []
 
     def generate_code(self, action, token):
-        print(action)
+        # print(action)
         getattr(self, action, )(token)
 
     def pid(self, lexeme):
@@ -24,6 +25,13 @@ class CodeGenerator:
         code = f'(ASSIGN, #0, {address}, )'
         self.codes[self.code_line] = code
         self.code_line += 1
+
+    def pid_get(self, lexeme):
+        row = self.symbol_table.get_row_by_lexeme(lexeme, self.scope)
+        self.semantic_stack.append(row.address)
+
+    def push_num(self, num):
+        self.semantic_stack.append(f'#{num}')
 
     def array(self, num):
         row = self.symbol_table.get_row_by_lexeme(self.latest_lexeme, self.scope)
@@ -40,7 +48,9 @@ class CodeGenerator:
         self.scope += 1
 
     def scope_decrease(self, *args):
+        # print(self.symbol_table)
         self.symbol_table.delete_in_scope(self.scope)
+        # print(self.symbol_table)
         self.scope -= 1
 
     def save(self, *args):
@@ -49,9 +59,14 @@ class CodeGenerator:
 
     def jpf_save(self, *args):
         # try:
+        # print(self.semantic_stack)
         loc = self.semantic_stack.pop()
         result = self.semantic_stack.pop()
+
         self.codes[loc] = f'(JPF, {result}, {self.code_line + 1}, )'
+        # print(self.code_line)
+        # for i in sorted(self.codes):
+        #     print(i, self.codes[i])
         self.semantic_stack.append(self.code_line)
         self.code_line += 1
         # except:
@@ -59,8 +74,11 @@ class CodeGenerator:
 
     def jp(self, *args):
         # try:
+        # print(self.semantic_stack)
         loc = self.semantic_stack.pop()
         self.codes[loc] = f'(JP, {self.code_line}, , )'
+        # for i in sorted(self.codes):
+        #     print(i, self.codes[i])
         # except:
         #     pass
 
@@ -75,6 +93,9 @@ class CodeGenerator:
     def save_rep(self, *args):
         self.semantic_stack.append(self.code_line)
 
+    # def re_begin(self, *args):
+    #     self.repeat_stack.append(self.code_line)
+
     def jpf_rep(self, *args):
         # try:
         result = self.semantic_stack.pop()
@@ -84,8 +105,47 @@ class CodeGenerator:
         # except:
         #     pass
 
-    # def opp(self):
-    #     print('op')
+    def saveop(self, operand):
+        self.operands.append(operand)
+
+    def op(self, *args):
+        second = self.semantic_stack.pop()
+        first = self.semantic_stack.pop()
+        operand = self.operands.pop()
+        op_name = ""
+        if operand == "+":
+            op_name = "ADD"
+        if operand == "-":
+            op_name = "SUB"
+        if operand == "*":
+            op_name = "MULT"
+        if operand == "<":
+            op_name = "LT"
+        if operand == "==":
+            op_name = "EQ"
+        address = self.symbol_table.get_free_address()
+        self.semantic_stack.append(address)
+        # first_op, second_op = self.find_operation(first, second)
+        self.codes[self.code_line] = f'({op_name}, {first}, {second}, {address})'
+        self.code_line += 1
+
+    def assign(self, *args):
+        second = self.semantic_stack.pop()
+        first = self.semantic_stack.pop()
+        # first_op, second_op = self.find_operation(first, second)
+        self.codes[self.code_line] = f'(ASSIGN, {second}, {first}, )'
+        self.code_line += 1
+
+    # def find_operation(self, first, second):
+    #     first_op = ""
+    #     second_op = ""
+    #     if type(first) is tuple:
+    #         first_op = f'#{first[0]}'
+    #     else:
+    #         first_op = first
+    #     if type(second) is tuple:
+    #         second_op = f'#{second[0]}'
+    #     else:
+    #         second_op = second
     #
-    # def ASA(self):
-    #     print('ASA')
+    #     return first_op, second_op

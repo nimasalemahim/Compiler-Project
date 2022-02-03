@@ -1,5 +1,1 @@
-#5 : syntax error, illegal ID
-#5 : syntax error, illegal (
-#5 : syntax error, illegal ID
-#5 : syntax error, missing ;
-#5 : syntax error, illegal )
+There is no syntax error.

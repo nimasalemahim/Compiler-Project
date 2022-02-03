@@ -22,10 +22,19 @@ class Diagram:
         self.actions = actions
 
     def do_actions(self, state, tra, token):
+        # pass
+        # print(state, tra, self.actions)
         action = self.actions.get(state, None)
+        # print(action)
         if action:
             ac = action.get(tra, None)
+            if not ac:
+                return
+            # print(state, tra, token)
+            # print(self.name, self.actions, self.states)
+            # print(ac, action, tra)
             for i in ac:
+                # print(i)
                 Diagram.code_generator_class.generate_code(i, token)
 
     def start_process(self, parent=None):
@@ -43,6 +52,7 @@ class Diagram:
                         if (check_token in diagram.first or (
                                 check_token in diagram.follow and EPSILON in diagram.first)) or state != 0:
                             # code generate
+                            # print(tra, state, self.parser.token[1][1])
                             self.do_actions(state, tra, self.parser.token[1][1])
                             state = transitions.get(tra)
                             diagram.start_process(node)
@@ -58,6 +68,7 @@ class Diagram:
                             string = check_token if check_token == '$' else f'({type}, {token})'
                             anytree.Node(string, node)
                             # code generate
+
                             self.do_actions(state, tra, self.parser.token[1][1])
                             state = transitions.get(tra)
                             if self.final == state:
