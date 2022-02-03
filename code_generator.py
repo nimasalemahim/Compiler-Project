@@ -124,17 +124,12 @@ class CodeGenerator:
         self.codes[self.code_line] = f'(ASSIGN, {second}, {first}, )'
         self.code_line += 1
 
-
     def array_addr(self, *args):
         address = self.symbol_table.get_free_address()
         index = self.semantic_stack.pop()
         array_address = self.semantic_stack.pop()
         self.codes[self.code_line] = f'(MULT, #4, {index}, {address})'
         self.code_line += 1
-        self.codes[self.code_line] = f'(ADD, #{array_address}, {address}, {address}'
+        self.codes[self.code_line] = f'(ADD, #{array_address}, {address}, {address})'
         self.semantic_stack.append(f"@{address}")
         self.code_line += 1
-
-
-
-
