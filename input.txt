@@ -1,9 +1,9 @@
-int fee (int a){
-    return a;
-}
+int sag;
+int gav;
+int rr[2];
 int main( void ){
- int a[5];
- int b;
- fee(a[1]);
+ int b[5];
+ int a;
+ output(5);
 }
 
