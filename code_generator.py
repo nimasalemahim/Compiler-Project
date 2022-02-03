@@ -1,4 +1,4 @@
-from symbol_tabe import SymbolTable
+from symbol_tabe import SymbolTable, Func, Param
 
 
 class CodeGenerator:
@@ -14,9 +14,25 @@ class CodeGenerator:
         self.declaration_id = False
         self.repeat_stack = []
         self.break_list = []
+        self.last_func = None
 
     def generate_code(self, action, token):
         getattr(self, action, )(token)
+
+    def fun_dec(self, *args):
+        self.last_func = self.latest_lexeme
+        Func(self.latest_lexeme)
+
+    def params(self, token):
+        address = self.symbol_table.get_free_address()
+        self.symbol_table.insert(token, self.declaration_type, self.scope, address, True)
+        self.latest_lexeme = token
+        func = Func.get_name(self.last_func)
+        func.params.append(Param(address, token))
+
+    def array_param(self):
+        func = Func.get_name(self.last_func)
+        func.set_param_array(self.latest_lexeme)
 
     def pid(self, lexeme):
         self.latest_lexeme = lexeme

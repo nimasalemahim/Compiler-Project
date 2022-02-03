@@ -1,12 +1,7 @@
-/*===== Sample 1 =====*/
-int foo(int x[]){
-	int y;
-	y = x;
-	return y;
+int foo(a[], b){
+
 }
-void main(void){
-	int a[5];
-	int b;
-	a[1] = 5;
-	b = foo(a);
+int sag(s, d[]){
+
 }
+
