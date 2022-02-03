@@ -27,11 +27,10 @@ class CodeGenerator:
 
     def fun_dec(self, *args):
         if self.first_fun == False:
-            code = self.codes[self.code_line-1]
-            self.jump_main = self.code_line - 1
-
+            if self.latest_lexeme != "main":
+                self.jump_main = self.code_line - 1
+            code = self.codes[self.code_line - 1]
             self.handle_output()
-
             self.codes[self.code_line] = code
             self.code_line += 1
             self.first_fun = True
@@ -63,6 +62,7 @@ class CodeGenerator:
 
 
 
+
     def param_init(self, *args):
         self.in_param_initial = True
 
@@ -76,7 +76,8 @@ class CodeGenerator:
     def pid(self, lexeme):
 
         if lexeme == "main":
-            self.codes[self.jump_main] = f'(JP, {self.code_line}, , )'
+            if self.first_fun == True:
+                self.codes[self.jump_main] = f'(JP, {self.code_line}, , )'
         self.latest_lexeme = lexeme
         address = self.symbol_table.get_free_address()
         if self.in_param_initial:
@@ -95,6 +96,8 @@ class CodeGenerator:
         self.latest_lexeme = lexeme
         row = self.symbol_table.get_row_by_lexeme(lexeme, self.scope)
         if not Func.is_exists(lexeme):
+            print(lexeme)
+            print(self.symbol_table)
             self.semantic_stack.append(row.address)
 
     def push_num(self, num):
