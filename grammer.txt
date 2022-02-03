@@ -19,27 +19,27 @@ Else-stmt -> endif #jpf | else #jpf_save Statement #jp endif
 Iteration-stmt -> repeat #save Statement until ( Expression #jpf_rep )
 Return-stmt -> return Return-stmt-prime
 Return-stmt-prime -> ; | Expression ;
-Expression -> Simple-expression-zegond | ID B
-B -> = Expression | [ Expression ] H | Simple-expression-prime
-H -> = Expression | G D C
+Expression -> Simple-expression-zegond | #pid_get ID B
+B -> = Expression #assign | [ Expression ] H | Simple-expression-prime
+H -> = Expression #assign | G D C
 Simple-expression-zegond -> Additive-expression-zegond C
 Simple-expression-prime -> Additive-expression-prime C
-C -> Relop Additive-expression | EPSILON
+C -> #saveop Relop Additive-expression #op | EPSILON
 Relop -> < | ==
 Additive-expression -> Term D
 Additive-expression-prime -> Term-prime D
 Additive-expression-zegond -> Term-zegond D
-D -> Addop Term D | EPSILON
+D -> #saveop Addop Term #op D | EPSILON
 Addop -> + | -
 Term -> Factor G
 Term-prime -> Factor-prime G
 Term-zegond -> Factor-zegond G
-G -> * Factor G | EPSILON
-Factor -> ( Expression ) | ID Var-call-prime | NUM
+G -> #saveop * Factor #op G | EPSILON
+Factor -> ( Expression ) | #pid_get ID Var-call-prime | #push_num NUM
 Var-call-prime -> ( Args ) | Var-prime
 Var-prime -> [ Expression ] | EPSILON
 Factor-prime -> ( Args ) | EPSILON
-Factor-zegond -> ( Expression ) | NUM
+Factor-zegond -> ( Expression ) | #push_num NUM
 Args -> Arg-list | EPSILON
 Arg-list -> Expression Arg-list-prime
 Arg-list-prime -> , Expression Arg-list-prime | EPSILON

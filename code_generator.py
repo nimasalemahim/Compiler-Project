@@ -4,14 +4,14 @@ from symbol_tabe import SymbolTable
 class CodeGenerator:
     def __init__(self, symbol_table):
         self.semantic_stack = []
-        self.operand = None
         self.scope = 0
         self.declaration_type = None
         self.latest_lexeme = None
         self.code_line = 0
         self.codes = {}
         self.symbol_table: SymbolTable = symbol_table
-        # self.latest_op = []
+        self.operands = []
+        self.declaration_id = False
 
     def generate_code(self, action, token):
         print(action)
@@ -24,6 +24,13 @@ class CodeGenerator:
         code = f'(ASSIGN, #0, {address}, )'
         self.codes[self.code_line] = code
         self.code_line += 1
+
+    def pid_get(self, lexeme):
+        row = self.symbol_table.get_row_by_lexeme(lexeme, self.scope)
+        self.semantic_stack.append(row.address)
+
+    def push_num(self, num):
+        self.semantic_stack.append((num, "num"))
 
     def array(self, num):
         row = self.symbol_table.get_row_by_lexeme(self.latest_lexeme, self.scope)
@@ -84,8 +91,48 @@ class CodeGenerator:
         # except:
         #     pass
 
-    # def opp(self):
-    #     print('op')
-    #
-    # def ASA(self):
-    #     print('ASA')
+    def saveop(self, operand):
+        self.operands.append(operand)
+
+    def op(self, *args):
+        second = self.semantic_stack.pop()
+        first = self.semantic_stack.pop()
+        operand = self.operands.pop()
+        op_name = ""
+        if operand == "+":
+            op_name = "ADD"
+        if operand == "-":
+            op_name = "SUB"
+        if operand == "*":
+            op_name = "MULT"
+        if operand == "<":
+            op_name = "LT"
+        if operand == "==":
+            op_name = "EQ"
+        address = self.symbol_table.get_free_address()
+        self.semantic_stack.append(address)
+        first_op, second_op = self.find_operation(first, second)
+        self.codes[self.code_line] = f'({op_name}, {first_op}, {second_op}, {address})'
+        self.code_line += 1
+
+    def assign(self):
+        second = self.semantic_stack.pop()
+        first = self.semantic_stack.pop()
+        first_op, second_op = self.find_operation(first, second)
+        self.codes[self.code_line] = f'(ASSIGN, {first_op}, {second_op}, )'
+        self.code_line += 1
+
+    def find_operation(self, first, second):
+        first_op = ""
+        second_op = ""
+        if type(first) is tuple:
+            first_op = f'#{first[0]}'
+        else:
+            first_op = first
+        if type(second) is tuple:
+            second_op = f'#{second[0]}'
+        else:
+            second_op = second
+
+        return first_op, second_op
+
