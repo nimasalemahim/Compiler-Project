@@ -87,11 +87,12 @@ if __name__ == '__main__':
     code_gen = CodeGenerator(sym_table)
     parser = Parser(scanner, code_gen)
     parser.start()
+    print(sym_table)
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')
 
-    for row in sym_table.rows:
-        print(row.lexeme, row.scope, row.num_array, row.address)
+    # for row in sym_table.rows:
+    #     print(row.lexeme, row.scope, row.num_array, row.address)
 
 
     # while True:

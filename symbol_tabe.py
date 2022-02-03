@@ -6,6 +6,9 @@ class Rows:
         self.scope = scope
         self.num_array = 0
 
+    def __str__(self):
+        return f'l: {self.lexeme}, a: {self.address}, t_v: {self.type_val}, s: {self.scope}, n_a: {self.num_array}'
+
 
 class SymbolTable:
     def __init__(self):
@@ -24,3 +27,14 @@ class SymbolTable:
         for row in self.rows:
             if row.scope == scope and row.lexeme == lexeme:
                 return row
+
+    def delete_in_scope(self, scope):
+        for row in self.rows:
+            if row.scope == scope:
+                self.rows.remove(row)
+
+    def __str__(self):
+        string = ''
+        for row in self.rows:
+            string = f'{string}{str(row)}\n'
+        return string
