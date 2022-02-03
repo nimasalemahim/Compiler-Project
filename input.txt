@@ -1,9 +1,14 @@
 int sag;
 int gav;
-int rr[2];
+int foo ( int a[] ){
+    int i;
+    i = 1;
+    return a[i];
+}
 int main( void ){
- int b[5];
+ int b[2];
  int a;
- output(5);
+ a = foo(b) + foo(b);
+
 }
 

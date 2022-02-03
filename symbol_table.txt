@@ -7,10 +7,10 @@
 7.	until
 8.	return
 9.	endif
-10.	fee
-11.	a
-12.	c
-13.	k
-14.	q
+10.	sag
+11.	gav
+12.	foo
+13.	a
+14.	i
 15.	main
 16.	b
