@@ -20,7 +20,7 @@ Iteration-stmt -> repeat #save_rep Statement until ( Expression #jpf_rep )
 Return-stmt -> return Return-stmt-prime
 Return-stmt-prime -> ; | Expression ;
 Expression -> Simple-expression-zegond | #pid_get ID B
-B -> = Expression #assign | [ Expression ] H | Simple-expression-prime
+B -> = Expression #assign | [ Expression #array_addr ] H | Simple-expression-prime
 H -> = Expression #assign | G D C
 Simple-expression-zegond -> Additive-expression-zegond C
 Simple-expression-prime -> Additive-expression-prime C
@@ -37,7 +37,7 @@ Term-zegond -> Factor-zegond G
 G -> #saveop * Factor #op G | EPSILON
 Factor -> ( Expression ) | #pid_get ID Var-call-prime | #push_num NUM
 Var-call-prime -> ( Args ) | Var-prime
-Var-prime -> [ Expression ] | EPSILON
+Var-prime -> [ Expression #array_addr ] | EPSILON
 Factor-prime -> ( Args ) | EPSILON
 Factor-zegond -> ( Expression ) | #push_num NUM
 Args -> Arg-list | EPSILON
