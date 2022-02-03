@@ -15,34 +15,43 @@ class CodeGenerator:
         self.repeat_stack = []
         self.break_list = []
         self.last_func = None
+        self.in_param_initial = False
+        self.func_params = []
+        self.calling_func = None
 
     def generate_code(self, action, token):
         getattr(self, action, )(token)
 
     def fun_dec(self, *args):
         self.last_func = self.latest_lexeme
-        Func(self.latest_lexeme)
+        func = Func(self.latest_lexeme, self.declaration_type)
+        func.code_line = self.code_line
 
-    def params(self, token):
-        address = self.symbol_table.get_free_address()
-        self.symbol_table.insert(token, self.declaration_type, self.scope, address, True)
-        self.latest_lexeme = token
-        func = Func.get_name(self.last_func)
-        func.params.append(Param(address, token))
+    def param_init(self, *args):
+        self.in_param_initial = True
 
-    def array_param(self):
+    def param_exit(self, *args):
+        self.in_param_initial = False
+
+    def array_param(self, *args):
         func = Func.get_name(self.last_func)
         func.set_param_array(self.latest_lexeme)
 
     def pid(self, lexeme):
         self.latest_lexeme = lexeme
         address = self.symbol_table.get_free_address()
+        if self.in_param_initial:
+            func = Func.get_name(self.last_func)
+            func.params.append(Param(address, lexeme))
+            address = f'@{address}'
+        else:
+            code = f'(ASSIGN, #0, {address}, )'
+            self.codes[self.code_line] = code
+            self.code_line += 1
         self.symbol_table.insert(lexeme, self.declaration_type, self.scope, address)
-        code = f'(ASSIGN, #0, {address}, )'
-        self.codes[self.code_line] = code
-        self.code_line += 1
 
     def pid_get(self, lexeme):
+        self.latest_lexeme = lexeme
         row = self.symbol_table.get_row_by_lexeme(lexeme, self.scope)
         self.semantic_stack.append(row.address)
 
@@ -149,3 +158,37 @@ class CodeGenerator:
         self.codes[self.code_line] = f'(ADD, #{array_address}, {address}, {address})'
         self.semantic_stack.append(f"@{address}")
         self.code_line += 1
+
+    def call_start(self, *args):
+        func = Func.get_name(self.latest_lexeme)
+        self.calling_func = func
+        self.func_params = func.params.copy()
+
+    def set_arg(self, *args):
+        semantic = self.semantic_stack.pop()
+        if '#' in str(semantic):
+            temp = self.symbol_table.get_free_address()
+            self.codes[self.code_line] = f'(ASSIGN, {semantic}, {temp}, )'
+            self.code_line += 1
+            arg = self.func_params.pop(0)
+            arg_address = arg.address
+            self.codes[self.code_line] = f'(ASSIGN, #{temp}, {arg_address}, )'
+            self.code_line += 1
+        else:
+            arg = self.func_params.pop()
+            arg_address = arg.address
+            self.codes[self.code_line] = f'(ASSIGN, #{semantic}, {arg_address}, )'
+            self.code_line += 1
+
+    def call_end(self, *args):
+        func = Func.get_name(self.last_func)
+        func_line = func.code_line
+        self.codes[self.code_line] = f'(JP, {func_line}, , )'
+        self.code_line += 1
+        if func.type == 'int':
+            address = self.symbol_table.get_free_address()
+            self.codes[self.code_line] = f'(ASSIGN, 1500, {address}, )'
+            self.code_line += 1
+            self.semantic_stack.append(address)
+
+

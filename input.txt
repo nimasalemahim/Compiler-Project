@@ -1,7 +1,9 @@
-int foo(a[], b){
-
+int fee (int a, int c){
+    return a;
 }
-int sag(s, d[]){
-
+int main( void ){
+ int a[5];
+ int b;
+ fee(b, 4);
 }
 

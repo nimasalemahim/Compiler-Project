@@ -1,6 +1,6 @@
-int foo(a[], b){
+int foo(a[], b) {
 
 }
-int sag(s, d[]){
+int sag(s, d[]) {
 
 }

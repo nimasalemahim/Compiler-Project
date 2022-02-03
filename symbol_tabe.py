@@ -1,10 +1,12 @@
 class Func:
     all_func = []
-    def __init__(self, name):
+
+    def __init__(self, name, type):
         self.name = name
         self.params = []
         self.address = 0
         self.code_line = 0
+        self.type = type
         Func.all_func.append(self)
 
     def set_param_array(self, param_name):
@@ -13,12 +15,12 @@ class Func:
                 param.isarray = True
                 return
 
-
     @staticmethod
     def get_name(name):
         for i in Func.all_func:
             if i.name == name:
                 return i
+
 
 class Param:
     def __init__(self, address, name):
@@ -28,7 +30,7 @@ class Param:
 
 
 class Rows:
-    def __init__(self, lexeme, address, type_val, scope, isparam = False):
+    def __init__(self, lexeme, address, type_val, scope, isparam=False):
         self.lexeme = lexeme
         self.address = address
         self.type_val = type_val
@@ -46,7 +48,7 @@ class SymbolTable:
         self.pointer_address = 496
         self.scope_s = []
 
-    def insert(self, lexeme, type_val, scope, address, isparam = False):
+    def insert(self, lexeme, type_val, scope, address, isparam=False):
         self.rows.append(Rows(lexeme, address, type_val, scope, isparam))
 
     def get_free_address(self):
@@ -54,9 +56,10 @@ class SymbolTable:
         return self.pointer_address
 
     def get_row_by_lexeme(self, lexeme, scope):
-        for row in self.rows:
-            if row.scope == scope and row.lexeme == lexeme:
-                return row
+        for scope in list(reversed(range(scope + 1))):
+            for row in self.rows:
+                if row.scope == scope and row.lexeme == lexeme:
+                    return row
 
     def delete_in_scope(self, scope):
         self.rows = list(filter(lambda x: x.scope != scope < 5, self.rows))

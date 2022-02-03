@@ -90,8 +90,10 @@ if __name__ == '__main__':
     # print(sym_table)
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')
-    for f in Func.all_func:
-        print(f.name)
+    # for f in Func.all_func:
+    #     print(f.name)
+    #     for p in f.params:
+    #         print(p.name, p.address, p.isarray)
 
     # for row in sym_table.rows:
     #     print(row.lexeme, row.scope, row.num_array, row.address)

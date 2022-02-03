@@ -7,6 +7,8 @@
 7.	until
 8.	return
 9.	endif
-10.	main
-11.	x
-12.	y
+10.	fee
+11.	a
+12.	c
+13.	main
+14.	b
