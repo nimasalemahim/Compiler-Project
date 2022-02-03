@@ -1,14 +1,15 @@
-int fee (int a, int c, int k){
+
+int fee (int a[] 508, int c 512, int k 516){
     int q;
-    q = k + c;
+    q = a[3] + c;
     return q;
 }
 
 int main( void ){
- int b;
+ int b[5];
  int a;
 
- b = 10;
+ b[3] = 10;
  a = fee(b, 4, 5);
 }
 

@@ -22,6 +22,13 @@ class Func:
             if i.name == name:
                 return i
 
+    @staticmethod
+    def is_exists(name):
+        for func in Func.all_func:
+            if func.name == name:
+                return True
+        return False
+
 
 class Param:
     def __init__(self, address, name):

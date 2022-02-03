@@ -27,7 +27,9 @@ class CodeGenerator:
         self.last_func = self.latest_lexeme
         return_address = self.symbol_table.get_free_address()
         func = Func(self.latest_lexeme, self.declaration_type, return_address)
-        func.code_line = self.code_line
+        func.code_line = self.code_line - 1
+        # print(self.semantic_stack)
+        # self.semantic_stack.pop()
 
     def param_init(self, *args):
         self.in_param_initial = True
@@ -55,8 +57,8 @@ class CodeGenerator:
     def pid_get(self, lexeme):
         self.latest_lexeme = lexeme
         row = self.symbol_table.get_row_by_lexeme(lexeme, self.scope)
-        # print(lexeme)
-        self.semantic_stack.append(row.address)
+        if not Func.is_exists(lexeme):
+            self.semantic_stack.append(row.address)
 
     def push_num(self, num):
         self.semantic_stack.append(f'#{num}')
@@ -159,7 +161,10 @@ class CodeGenerator:
         array_address = self.semantic_stack.pop()
         self.codes[self.code_line] = f'(MULT, #4, {index}, {address})'
         self.code_line += 1
-        self.codes[self.code_line] = f'(ADD, #{array_address}, {address}, {address})'
+        if '@' in str(array_address):
+            self.codes[self.code_line] = f'(ADD, {array_address.replace("@", "")}, {address}, {address})'
+        else:
+            self.codes[self.code_line] = f'(ADD, #{array_address}, {address}, {address})'
         self.semantic_stack.append(f"@{address}")
         self.code_line += 1
 
