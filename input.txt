@@ -1,22 +1,6 @@
-void main(void){
-	int x;
-	int y;
-	x = y + 3;
-	repeat {
-	    x = x + 1;
-	    if ( x == 10 ){
-	        repeat {
-	            y = 5;
-	            break;
-	        } until ( y == 1 )
-	    } endif
-	    y = y + 5;
-	    if ( y == x ){
-	        break;
-	    } endif
-	    if ( y == 10 ){
-	        break;
-	    } endif
-	} until ( x == (y + 10) )
-}
+int foo(a[], b){
 
+}
+int sag(s, d[]){
+
+}

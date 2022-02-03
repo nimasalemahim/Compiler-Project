@@ -8,7 +8,7 @@ from utils import *
 from DFA import DFA
 from parse import Parser
 from code_generator import CodeGenerator
-from symbol_tabe import SymbolTable
+from symbol_tabe import SymbolTable, Func
 
 def create_dfa():
     dfa = DFA([i for i in range(STATE_NUM)])
@@ -90,6 +90,8 @@ if __name__ == '__main__':
     # print(sym_table)
     parser.save_tree('parse_tree.txt')
     parser.save_errors('syntax_errors.txt')
+    for f in Func.all_func:
+        print(f.name)
 
     # for row in sym_table.rows:
     #     print(row.lexeme, row.scope, row.num_array, row.address)
@@ -105,3 +107,4 @@ if __name__ == '__main__':
     scanner.write_files()
 
     input_file.close()
+
