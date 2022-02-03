@@ -1,12 +1,13 @@
 class Func:
     all_func = []
 
-    def __init__(self, name, type):
+    def __init__(self, name, type, return_address):
         self.name = name
         self.params = []
         self.address = 0
         self.code_line = 0
         self.type = type
+        self.return_address = return_address
         Func.all_func.append(self)
 
     def set_param_array(self, param_name):
@@ -53,6 +54,8 @@ class SymbolTable:
 
     def get_free_address(self):
         self.pointer_address += 4
+        while self.pointer_address in ['1500', '1504']:
+            self.pointer_address += 4
         return self.pointer_address
 
     def get_row_by_lexeme(self, lexeme, scope):

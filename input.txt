@@ -1,9 +1,14 @@
-int fee (int a, int c){
-    return a;
+int fee (int a, int c, int k){
+    int q;
+    q = k + c;
+    return q;
 }
+
 int main( void ){
- int a[5];
  int b;
- fee(b, 4);
+ int a;
+
+ b = 10;
+ a = fee(b, 4, 5);
 }
 
