@@ -1,9 +1,9 @@
 int sag;
-int gav;
-int rr[2];
+int a[2];
+int e;
 int main( void ){
- int b[5];
+ int b[2];
  int a;
- output(5);
+ output(3);
 }
 
