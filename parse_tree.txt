@@ -1,0 +1,95 @@
+Program
+├── Declaration-list
+│   ├── Declaration
+│   │   ├── Declaration-initial
+│   │   │   ├── Type-specifier
+│   │   │   │   └── (KEYWORD, void)
+│   │   │   └── (ID, main)
+│   │   └── Declaration-prime
+│   │       └── Fun-declaration-prime
+│   │           ├── (SYMBOL, ()
+│   │           ├── Params
+│   │           │   └── (KEYWORD, void)
+│   │           ├── (SYMBOL, ))
+│   │           └── Compound-stmt
+│   │               ├── (SYMBOL, {)
+│   │               ├── Declaration-list
+│   │               │   ├── Declaration
+│   │               │   │   ├── Declaration-initial
+│   │               │   │   │   ├── Type-specifier
+│   │               │   │   │   │   └── (KEYWORD, int)
+│   │               │   │   │   └── (ID, x)
+│   │               │   │   └── Declaration-prime
+│   │               │   │       └── Var-declaration-prime
+│   │               │   │           ├── (SYMBOL, [)
+│   │               │   │           ├── (NUM, 2)
+│   │               │   │           ├── (SYMBOL, ])
+│   │               │   │           └── (SYMBOL, ;)
+│   │               │   └── Declaration-list
+│   │               │       ├── Declaration
+│   │               │       │   ├── Declaration-initial
+│   │               │       │   │   ├── Type-specifier
+│   │               │       │   │   │   └── (KEYWORD, int)
+│   │               │       │   │   └── (ID, y)
+│   │               │       │   └── Declaration-prime
+│   │               │       │       └── Var-declaration-prime
+│   │               │       │           ├── (SYMBOL, [)
+│   │               │       │           ├── (NUM, 5)
+│   │               │       │           ├── (SYMBOL, ])
+│   │               │       │           └── (SYMBOL, ;)
+│   │               │       └── Declaration-list
+│   │               │           └── epsilon
+│   │               ├── Statement-list
+│   │               │   ├── Statement
+│   │               │   │   └── Expression-stmt
+│   │               │   │       ├── Expression
+│   │               │   │       │   ├── (ID, y)
+│   │               │   │       │   └── B
+│   │               │   │       │       ├── (SYMBOL, [)
+│   │               │   │       │       ├── Expression
+│   │               │   │       │       │   └── Simple-expression-zegond
+│   │               │   │       │       │       ├── Additive-expression-zegond
+│   │               │   │       │       │       │   ├── Term-zegond
+│   │               │   │       │       │       │   │   ├── Factor-zegond
+│   │               │   │       │       │       │   │   │   └── (NUM, 1)
+│   │               │   │       │       │       │   │   └── G
+│   │               │   │       │       │       │   │       └── epsilon
+│   │               │   │       │       │       │   └── D
+│   │               │   │       │       │       │       └── epsilon
+│   │               │   │       │       │       └── C
+│   │               │   │       │       │           └── epsilon
+│   │               │   │       │       ├── (SYMBOL, ])
+│   │               │   │       │       └── H
+│   │               │   │       │           ├── (SYMBOL, =)
+│   │               │   │       │           └── Expression
+│   │               │   │       │               ├── (ID, x)
+│   │               │   │       │               └── B
+│   │               │   │       │                   ├── (SYMBOL, [)
+│   │               │   │       │                   ├── Expression
+│   │               │   │       │                   │   └── Simple-expression-zegond
+│   │               │   │       │                   │       ├── Additive-expression-zegond
+│   │               │   │       │                   │       │   ├── Term-zegond
+│   │               │   │       │                   │       │   │   ├── Factor-zegond
+│   │               │   │       │                   │       │   │   │   └── (NUM, 1)
+│   │               │   │       │                   │       │   │   └── G
+│   │               │   │       │                   │       │   │       └── epsilon
+│   │               │   │       │                   │       │   └── D
+│   │               │   │       │                   │       │       └── epsilon
+│   │               │   │       │                   │       └── C
+│   │               │   │       │                   │           └── epsilon
+│   │               │   │       │                   ├── (SYMBOL, ])
+│   │               │   │       │                   └── H
+│   │               │   │       │                       ├── G
+│   │               │   │       │                       │   └── epsilon
+│   │               │   │       │                       ├── D
+│   │               │   │       │                       │   └── epsilon
+│   │               │   │       │                       └── C
+│   │               │   │       │                           └── epsilon
+│   │               │   │       └── (SYMBOL, ;)
+│   │               │   └── Statement-list
+│   │               │       └── epsilon
+│   │               └── (SYMBOL, })
+│   └── Declaration-list
+│       └── epsilon
+└── $
+
