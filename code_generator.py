@@ -19,17 +19,49 @@ class CodeGenerator:
         self.func_params = []
         self.calling_func = None
         self.return_stack = []
+        self.first_fun = False
+        self.jump_main = 0
 
     def generate_code(self, action, token):
         getattr(self, action, )(token)
 
     def fun_dec(self, *args):
+        if self.first_fun == False:
+            code = self.codes[self.code_line-1]
+            self.jump_main = self.code_line - 1
+
+            self.handle_output()
+
+            self.codes[self.code_line] = code
+            self.code_line += 1
+            self.first_fun = True
         self.last_func = self.latest_lexeme
         return_address = self.symbol_table.get_free_address()
         func = Func(self.latest_lexeme, self.declaration_type, return_address)
         func.code_line = self.code_line - 1
         # print(self.semantic_stack)
         # self.semantic_stack.pop()
+
+    def handle_output(self):
+        func_type = "void"
+        lexeme = "output"
+        address = self.symbol_table.get_free_address()
+        code = f'(ASSIGN, #0, {address}, )'
+        self.codes[self.code_line] = code
+        self.code_line += 1
+        self.symbol_table.insert(lexeme, "void", 0, address)
+        re_address = self.symbol_table.get_free_address()
+        func = Func("output", "void", re_address)
+        func.code_line = self.code_line - 1
+        param_address = self.symbol_table.get_free_address()
+        func.params.append(Param(param_address, "a"))
+        self.codes[self.code_line] = f"(PRINT, @{param_address}, ,)"
+        self.code_line += 1
+        self.codes[self.code_line] = f"(JP, @{re_address}, , )"
+        self.code_line += 1
+
+
+
 
     def param_init(self, *args):
         self.in_param_initial = True
@@ -42,6 +74,9 @@ class CodeGenerator:
         func.set_param_array(self.latest_lexeme)
 
     def pid(self, lexeme):
+
+        if lexeme == "main":
+            self.codes[self.jump_main] = f'(JP, {self.code_line}, , )'
         self.latest_lexeme = lexeme
         address = self.symbol_table.get_free_address()
         if self.in_param_initial:
@@ -49,6 +84,8 @@ class CodeGenerator:
             func.params.append(Param(address, lexeme))
             address = f'@{address}'
         else:
+            if self.first_fun == False:
+                self.jump_main += 1
             code = f'(ASSIGN, #0, {address}, )'
             self.codes[self.code_line] = code
             self.code_line += 1
