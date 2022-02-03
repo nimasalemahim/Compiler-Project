@@ -29,11 +29,7 @@ class SymbolTable:
                 return row
 
     def delete_in_scope(self, scope):
-        # rows = []
         self.rows = filter(lambda x: x.scope != scope < 5, self.rows)
-        # for row in self.rows:
-        #     if row.scope == scope:
-        #         self.rows.remove(row)
 
     def __str__(self):
         string = ''
