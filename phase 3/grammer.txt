@@ -1,0 +1,45 @@
+Program -> Declaration-list $
+Declaration-list -> Declaration Declaration-list | EPSILON
+Declaration -> Declaration-initial Declaration-prime
+Declaration-initial -> #type_save Type-specifier #pid ID
+Declaration-prime -> Fun-declaration-prime | Var-declaration-prime
+Var-declaration-prime -> ; | [ #array NUM ] ;
+Fun-declaration-prime -> #fun_dec ( #param_init #scope_increase Params #param_exit ) Compound-stmt #scope_decrease #return_line
+Type-specifier -> int | void
+Params -> #type_save int #pid ID Param-prime Param-list | void
+Param-list -> , Param Param-list | EPSILON
+Param -> Declaration-initial Param-prime
+Param-prime -> #array_param [ ] | EPSILON
+Compound-stmt -> { Declaration-list Statement-list }
+Statement-list -> Statement Statement-list | EPSILON
+Statement -> Expression-stmt | Compound-stmt | Selection-stmt | Iteration-stmt | Return-stmt
+Expression-stmt -> Expression ; | break #break_seen ; | ;
+Selection-stmt -> if ( Expression #save ) Statement Else-stmt
+Else-stmt -> #jpf endif | else #jpf_save Statement #jp endif
+Iteration-stmt -> repeat #save_rep #rep_begin Statement until ( Expression #jpf_rep #rep_end )
+Return-stmt -> return Return-stmt-prime #return_line
+Return-stmt-prime -> ; | Expression #set_return_val ;
+Expression -> Simple-expression-zegond | #pid_get ID B
+B -> = Expression #assign | [ Expression #array_addr ] H | Simple-expression-prime
+H -> = Expression #assign | G D C
+Simple-expression-zegond -> Additive-expression-zegond C
+Simple-expression-prime -> Additive-expression-prime C
+C -> #saveop Relop Additive-expression #op | EPSILON
+Relop -> < | ==
+Additive-expression -> Term D
+Additive-expression-prime -> Term-prime D
+Additive-expression-zegond -> Term-zegond D
+D -> #saveop Addop Term #op D | EPSILON
+Addop -> + | -
+Term -> Factor G
+Term-prime -> Factor-prime G
+Term-zegond -> Factor-zegond G
+G -> #saveop * Factor #op G | EPSILON
+Factor -> ( Expression ) | #pid_get ID Var-call-prime | #push_num NUM
+Var-call-prime -> ( #call_start Args #call_end ) | Var-prime
+Var-prime -> [ Expression #array_addr ] | EPSILON
+Factor-prime -> ( #call_start Args #call_end ) | EPSILON
+Factor-zegond -> ( Expression ) | #push_num NUM
+Args -> Arg-list | EPSILON
+Arg-list -> Expression #set_arg Arg-list-prime
+Arg-list-prime -> , Expression #set_arg Arg-list-prime | EPSILON

@@ -7,10 +7,8 @@
 7.	until
 8.	return
 9.	endif
-10.	sag
-11.	gav
-12.	foo
-13.	a
-14.	i
-15.	main
-16.	b
+10.	main
+11.	arr
+12.	var1
+13.	var2
+14.	output

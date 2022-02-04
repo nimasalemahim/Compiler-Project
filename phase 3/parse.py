@@ -51,9 +51,8 @@ class Parser:
         #     print(Diagram.all[i].states)
         #     print(Diagram.all[i].actions)
         self.root_node = start_diagram.start_process()
-        for i in Diagram.code_generator_class.codes:
-            print(i, Diagram.code_generator_class.codes[i])
-            # print(i, Diagram.code_generator_class.codes[i])
+        # for i in sorted(Diagram.code_generator_class.codes):
+        #     print(i, Diagram.code_generator_class.codes[i])
         # print(Diagram.code_generator_class.codes)
 
     def create_first_follow(self):
